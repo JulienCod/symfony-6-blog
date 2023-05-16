@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte
+{% endblock %}
+
+{% block body %}
+	<main>
+		<div>
+			<h2>Créer un compte</h2>
+			<form action="{{ path('registration')}}" method="POST">
+            {{form_start(form)}}
+            {{ form_row(form.lastname)}}
+            {{ form_row(form.firstname)}}
+            {{ form_row(form.email)}}
+            {{ form_row(form.password)}}
+
+            {{form_end(form)}}
+			</form>
+			<p>Déjà inscrit ?
+				{# <a href="{{ path('') }}"> #}
+				Se connecter
+				{# </a> #}
+			</p>
+		</div>
+	</main>
+{% endblock %}
