@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\RegistrationFormType;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -24,9 +26,22 @@ class RegistrationController extends AbstractController
             // Traitement des données du formulaire et enregistrement de l'utilisateur
             $user = $form->getData();
 
+             // Vérifier si l'adresse email est déjà utilisée
+             $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
+             if ($existingUser) {
+                // Ajouter un flash message en cas d'adresse email déjà utilisée
+                $this->addFlash('error-mail', 'Cette adresse email est déjà utilisée');
+
+                // Redirection vers une autre page pour afficher le message d'erreur
+                return $this->redirectToRoute('registration');
+             }
+
             // Encoder le mot de passe
             $password = $passwordEncoder->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
+
+            // Attribuer le rôle à l'utilisateur
+            $user->setRoles(['ROLE_USER']);
 
             // Enregistrer l'utilisateur en base de données
             $entityManager->persist($user);
@@ -35,6 +50,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('registration_success');
         }
 
+    
         return $this->render('registration/register.html.twig', [
             'form' => $form->createView(),
         ]);
