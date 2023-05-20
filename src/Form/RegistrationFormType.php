@@ -29,7 +29,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints'=>[
                     new Assert\NotBlank(),
-                    new Assert\Length(['min'=>2, 'max'=>50])
+                    new Assert\Length(['min'=>2, 'max'=>180])
                 ]
             ])
             ->add('firstname', TextType::class, [
