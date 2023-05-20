@@ -1,0 +1,17 @@
+<header class="bg-gray-800 text-white py-4">
+	<div class="max-w-screen-2xl m-auto flex items-center justify-around">
+		<a href="{{ path('app_welcome') }}">
+			<img src="/images/logos/J Julien web&co Bleu-blanc.webp" alt="Logo du blog" class="w-28">
+		</a>
+		<h1 class="text-2xl font-bold">Le blog du Dévellopeur</h1>
+		{% if app.user %}
+			<a href="{{ path('app_logout')}}" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >
+				deconnexion
+			</a>
+		{% else %}
+			<button type="button" name="Connexion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
+				Connexion
+			</button>
+		{% endif %}
+	</div>
+</header>

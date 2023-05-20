@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Bienvenue sur le blog!
+{% endblock %}
+
+{% block body %}
+	{% include "partials/modal/_register.html.twig" %}
+	<main class="py-8">
+
+		<div
+			class="container mx-auto px-4">
+			<!-- Section des articles récents -->
+			<section class="mb-8">
+				<h2 class="text-2xl font-bold mb-4">Articles récents</h2>
+				<div
+					class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Affichage des articles récents -->
+				</div>
+			</section>
+
+			<!-- Fonctionnalités du blog -->
+			<section class="mb-8">
+				<h2 class="text-2xl font-bold mb-4">Fonctionnalités du blog</h2>
+				<div
+					class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"><!-- Affichage des fonctionnalités -->
+				</div>
+			</section>
+
+			<!-- Formulaire d'inscription et de connexion -->
+			<section class="mb-8">
+				<h2 class="text-2xl font-bold mb-4">Inscription et connexion</h2>
+				<div
+					class="flex justify-center space-x-4"><!-- Affichage des formulaires d'inscription et de connexion -->
+				</div>
+			</section>
+		</div>
+	</main>
+
+	<footer class="bg-gray-800 text-white py-4">
+		<div
+			class="container mx-auto px-4"><!-- Votre pied de page -->
+		</div>
+	</footer>
+{% endblock %}

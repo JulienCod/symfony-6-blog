@@ -2,43 +2,63 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
+
+#[UniqueEntity('email')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
-    #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'L\'adresse email ne peut pas être vide')]
+    #[Assert\Email(message: 'L\'adresse email n\'est pas valide')]
+    #[Assert\Length(min:2, max: 180, minMessage: 'L\'adresse email ne peut pas avoir moins de 2 caractères', maxMessage: 'L\'adresse email ne peut pas avoir plus de 180 caractères')]
+    private string $email;
 
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column]
-    private ?string $firstName = null;
+    #[ORM\Column(type:'string', length: 50)]
+    #[Assert\NotBlank(message: 'Le prénom ne peut pas être vide')]
+    #[Assert\Length(min:2, max:50, minMessage: 'Le prénom ne peut pas avoir moins de 2 caractères', maxMessage: 'Le prénom ne peut pas avoir plus de 50 caractères')]
+    private string $firstName;
 
-    #[ORM\Column]
-    private ?string $lastName = null;
+    #[ORM\Column(type:'string', length: 50)]
+    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide')]
+    #[Assert\Length(min:2, max:50, minMessage: 'Le nom ne peut pas avoir moins de 2 caractères', maxMessage: 'Le nom ne peut pas avoir plus de 50 caractères')]
+    private string $lastName;
 
-    
+
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    private ?string $password = null;
+    #[Assert\NotBlank(message: 'Le mot de passe ne peut pas être vide')]
+    private string $password;
+
+    #[ORM\Column(type:'datetime_immutable')]
+    #[Assert\NotNull()]
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[Assert\NotNull()]
+    private \DateTimeImmutable $updatedAt;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -112,7 +132,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Get the value of lastName
-     */ 
+     */
     public function getLastName()
     {
         return $this->lastName;
@@ -122,7 +142,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Set the value of lastName
      *
      * @return  self
-     */ 
+     */
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
@@ -132,7 +152,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Get the value of firstName
-     */ 
+     */
     public function getFirstName()
     {
         return $this->firstName;
@@ -142,7 +162,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Set the value of firstName
      *
      * @return  self
-     */ 
+     */
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
