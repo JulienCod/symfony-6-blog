@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -17,25 +18,33 @@ class Article
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    #[Assert\NotBlank(message:'Le titre ne peut pas être vide')]
+    #[Assert\Length(min:5, max:150, minMessage:'Le titre ne doit pas contenir moins de 5 caractères.', maxMessage:'Le titre ne peux pas contenir plus de 150 caractères.')]
+    private string $title;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $Content = null;
+    #[Assert\NotBlank(message:'Le contenu de l\'article ne peut pas être vide')]
+    #[Assert\Length(min:50, minMessage:'Le contenu de l\'article ne doit pas contenir moins de 50 caractères.')]
+    private string $Content;
 
     #[ORM\Column(length: 255)]
-    private ?string $Author = null;
+    #[Assert\NotBlank(message:'Le nom de l\'auteur ne peut pas être vide')]
+    #[Assert\Length(min:2, max: 50, minMessage:'Le nom de l\'auteur ne doit pas contenir moins de 2 caractères.',maxMessage:'Le nom de l\'auteur ne doit pas contenir plus de 50 caractères.')]
+    private string $Author;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private \DateTimeImmutable $updatedAt;
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    #[Assert\NotBlank(message:'Le statut ne peut pas être vide')]
+    #[Assert\Choice(choices: ["Actif", "Brouillon", "Archive", "Inactif"],message: "Le statut doit être l'un des suivants : Actif, Brouillon, Archive, Inactif")]
+    private string $status;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
     private Collection $comments;
@@ -49,6 +58,8 @@ class Article
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
         $this->category = new ArrayCollection();
     }
