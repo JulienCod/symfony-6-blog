@@ -20,7 +20,7 @@ class UserTest extends KernelTestCase
         
     }
 
-    public function testEntityValid(): void
+    public function testEntityUserValid(): void
     {
         self::bootKernel();
         $container = static::getContainer();
