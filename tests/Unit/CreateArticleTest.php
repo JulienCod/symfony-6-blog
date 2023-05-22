@@ -23,8 +23,6 @@ class CreateArticleTest extends KernelTestCase
             Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ac felis sit amet ligula pharetra condimentum. Etiam sit amet orci eget eros faucibus tincidunt. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla.')
             ->setImage('image')
             ->setStatus('Actif');
-            // ->setCreatedAt(new \DateTimeImmutable())
-            // ->setUpdatedAt(new \DateTimeImmutable());
     }
 
     public function assertHasErrors(Article $article, int $number = 0 )
