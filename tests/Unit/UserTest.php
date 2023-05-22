@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserTest extends KernelTestCase
 {
-    public function getEntity(): User
+    public function getUser(): User
     {
         return (new User())
             ->setFirstName('prénom')
@@ -19,90 +19,78 @@ class UserTest extends KernelTestCase
             ->setUpdatedAt(new \DateTimeImmutable());
         
     }
+    public function assertHasErrors(User $user, int $number = 0 )
+    {
+        self::bootKernel();
+        $errors = static::getContainer()->get('validator')->validate($user);
+        $messages = [];
+        /** @var ConstraintViolation $error */
+        foreach($errors as $error){
+            $messages[] = $error->getPropertyPath().' -> '.$error->getMessage();
+        }
+        $this->assertCount($number, $errors, implode(',', $messages));
+    }
 
     public function testEntityUserValid(): void
     {
-        self::bootKernel();
-        $container = static::getContainer();
-        $user = $this->getEntity();
-
-        $errors = $container->get('validator')->validate($user);
-
-        $this->assertCount(0, $errors);
+        $this->assertHasErrors($this->getUser(), 0);
+    }
+    
+    public function testBlankMail()
+    {
+        $this->assertHasErrors($this->getUser()->setEmail(''), 2);
     }
 
     public function testInvalidMail()
     {
-        self::bootKernel();
-        $container = static::getContainer();
-        $user = $this->getEntity();
-        //champs vide
-        $user->setEmail('');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(2, $errors);
-        //champs invalide
-        $user->setEmail('email@email');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(1, $errors);
-        //moins de 2 caractères et format invalide
-        $user->setEmail('e');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(2, $errors);
-        //plus de 180 caractères et format invalide
-        $user->setEmail('zefoazfpozifhazpfozhfpzofhfpouzfhpzufhzpfouzfpozufhbzpofuzpfouzfbhpzufbpzfubzpfubzpfuzbhfpuozfhbpzoufbnzpouifbzpfobzpfioubzfpouzbfpuzbafpuzfbpzuoifbzpfubzpfubzfpubzfpuzbfpzoufbzpofubzpfoubzpfubzpfouzbfpzufbzpoufbzpofubzfpo');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(2, $errors);
+        $this->assertHasErrors($this->getUser()->setEmail('email@email'), 1);
     }
     
-    public function testInvalidFirstName()
+    public function testMinLengthMail()
     {
-        self::bootKernel();
-        $container = static::getContainer();
-        $user = $this->getEntity();
-        //champs vide
-        $user->setFirstName('');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(2, $errors);
-        //plus de 50 caractères
-        $user->setFirstName('eozgnzogbhzpgohgpogbnzogbnzogbzgpozbgzogbzgobzngozbngogbzogbzgozbgozgbzogbzgozb');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(1, $errors);
-        //moins de 2 caractères
-        $user->setFirstName('a');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(1, $errors);
+        $this->assertHasErrors($this->getUser()->setEmail('e'), 2);
     }
     
-    public function testInvalidLastName()
+    public function testMaxLengthMail()
     {
-        self::bootKernel();
-        $container = static::getContainer();
-        $user = $this->getEntity();
-        //champs vide
-        $user->setLastName('');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(2, $errors);
-        //plus de 50 caractères
-        $user->setLastName('ikezfoizfhozifhzofhzfozhfzeofhzeofhzeofhzeohezvoizhvozevozvhbzvozbhvozbvzovbzovbz');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(1, $errors);
-        //moins de 2 caractères
-        $user->setLastName('a');
-        $errors = $container->get('validator')->validate($user);
-        $this->assertCount(1, $errors);
+        $this->assertHasErrors($this->getUser()->setEmail('zefoazfpozifhazpfozhfpzofhfpouzfhpzufhzpfouzfpozufhbzpofuzpfouzfbhpzufbpzfubzpfubzpfuzbhfpuozfhbpzoufbnzpouifbzpfobzpfioubzfpouzbfpuzbafpuzfbpzuoifbzpfubzpfubzfpubzfpuzbfpzoufbzpofubzpfoubzpfubzpfouzbfpzufbzpoufbzpofubzfpo'), 2);
     }
     
-    public function testInvalidPassword()
+    
+    public function testBlankFirstName()
     {
-        self::bootKernel();
-        $container = static::getContainer();
-        $user = $this->getEntity();
-        //champs vide
-        $user->setPassword('');
-        $errors = $container->get('validator')->validate($user);
-
-        $this->assertCount(1, $errors);
+        $this->assertHasErrors($this->getUser()->setFirstName(''), 2);
+    }
+    
+    public function testMinLengthFirstName()
+    {
+        $this->assertHasErrors($this->getUser()->setFirstName('a'), 1);
     }
 
+    public function testMaxLengthFirstName()
+    {
+        $this->assertHasErrors($this->getUser()->setFirstName('eozgnzogbhzpgohgpogbnzogbnzogbzgpozbgzogbzgobzngozbngogbzogbzgozbgozgbzogbzgozb'), 1);
+    }
+
+    public function testBlankLastName()
+    {
+        $this->assertHasErrors($this->getUser()->setLastName(''), 2);
+    }
+    
+    public function testMinLengthLastName()
+    {
+        $this->assertHasErrors($this->getUser()->setLastName('a'), 1);
+    }
+
+    public function testMaxLengthLastName()
+    {
+        $this->assertHasErrors($this->getUser()->setLastName('eozgnzogbhzpgohgpogbnzogbnzogbzgpozbgzogbzgobzngozbngogbzogbzgozbgozgbzogbzgozb'), 1);
+    }
+    
+    
+    public function testBlankPassword()
+    {
+        $this->assertHasErrors($this->getUser()->setPassword(''), 1);
+    }
 
 }
