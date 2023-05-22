@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -15,16 +16,25 @@ class Comment
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $content = null;
+    #[Assert\NotBlank(message:'Le contenu du commentaire ne peut pas être vide')]
+    #[Assert\Length(min:50, minMessage:'Le contenu du commentaire ne peut pas contenir moins de 50 caractères.')]
+    private string $content ;
 
     #[ORM\Column(length: 255)]
-    private ?string $author = null;
+    #[Assert\NotBlank(message:'Le nom de l\'auteur ne peut pas être vide')]
+    #[Assert\Length(min:2, max: 50, minMessage:'Le nom de l\'auteur ne doit pas contenir moins de 2 caractères.',maxMessage:'Le nom de l\'auteur ne doit pas contenir plus de 50 caractères.')]
+    private string $author;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Article $article = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {

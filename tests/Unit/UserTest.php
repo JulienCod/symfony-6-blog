@@ -14,10 +14,7 @@ class UserTest extends KernelTestCase
             ->setLastName('nom')
             ->setEmail('email@email.fr')
             ->setPassword('Password123')
-            ->setRoles(['ROLE_USER'])
-            ->setCreatedAt(new \DateTimeImmutable())
-            ->setUpdatedAt(new \DateTimeImmutable());
-        
+            ->setRoles(['ROLE_USER']);        
     }
     public function assertHasErrors(User $user, int $number = 0 )
     {
