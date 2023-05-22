@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -16,10 +17,14 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[Assert\NotBlank(message: "Le nom de la categorie ne peut pas être vide.")]
+    #[Assert\Length(min: 2, max: 50, minMessage: "Le nom de la catégorie ne peut pas contenir moins de 2 caractères.", maxMessage: "Le nom de la catégorie ne peut pas contenir plus de 50 caractères.")]
+    private string $name;
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
+    #[Assert\Length(min:20, max:255, minMessage: "La description ne peut pas contenir moins de 20 caractères.", maxMessage: "La description ne peut pas contenir plus de 255 caractères.")]
+    private string $description;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -32,6 +37,8 @@ class Category
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
         $this->articles = new ArrayCollection();
     }
 
