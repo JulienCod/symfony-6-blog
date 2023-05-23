@@ -3,6 +3,9 @@
 namespace App\Tests\Unit;
 
 use App\Entity\User;
+use App\Entity\Article;
+
+use function PHPUnit\Framework\assertEmpty;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserTest extends KernelTestCase
@@ -16,6 +19,35 @@ class UserTest extends KernelTestCase
             ->setPassword('Password123')
             ->setRoles(['ROLE_USER']);        
     }
+
+    public function testIsTrue()
+    {
+        $user = $this->getUser();
+        $this->assertTrue($user->getFirstName() === 'prénom');
+        $this->assertTrue($user->getLastName() === 'nom');
+        $this->assertTrue($user->getEmail() === 'email@email.fr');
+        $this->assertTrue($user->getPassword() === 'Password123');
+        $this->assertTrue($user->getRoles() === ['ROLE_USER']);
+        $this->assertTrue($user->getUserIdentifier() === 'email@email.fr');
+
+    }
+
+    public function testIsFalse()
+    {
+        $dateTime = new \DateTimeImmutable();
+        $user = $this->getUser();
+        $user->setCreatedAt($dateTime);
+        $user->setUpdatedAt($dateTime);
+
+        $this->assertFalse($user->getFirstName() === 'false');
+        $this->assertFalse($user->getLastName() === 'false');
+        $this->assertFalse($user->getEmail() === 'false@email.fr');
+        $this->assertFalse($user->getPassword() === 'false');
+        $this->assertFalse($user->getRoles() === ['ROLE_FALSE']);
+        $this->assertFalse($user->getCreatedAt() === new \DateTimeImmutable());
+        $this->assertFalse($user->getUpdatedAt() === new \DateTimeImmutable());
+    }
+
     public function assertHasErrors(User $user, int $number = 0 )
     {
         self::bootKernel();
@@ -88,6 +120,19 @@ class UserTest extends KernelTestCase
     public function testBlankPassword()
     {
         $this->assertHasErrors($this->getUser()->setPassword(''), 1);
+    }
+
+    public function testAddRemoveArticles()
+    {
+        $article = new Article();
+        $user = $this->getUser();
+        
+        $this->assertEmpty($user->getArticles());
+        $user->addArticle($article);
+        $this->assertContains($article, $user->getArticles());
+        $user->removeArticle($article);
+        $this->assertEmpty($user->getArticles());
+
     }
 
 }
