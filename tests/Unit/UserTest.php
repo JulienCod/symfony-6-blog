@@ -48,6 +48,11 @@ class UserTest extends KernelTestCase
         $this->assertFalse($user->getUpdatedAt() === new \DateTimeImmutable());
     }
 
+    public function testIsEmptyUser()
+    {
+        $this->assertEmpty($this->getUser()->getId());
+    }
+
     public function assertHasErrors(User $user, int $number = 0 )
     {
         self::bootKernel();
