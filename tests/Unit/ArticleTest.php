@@ -3,9 +3,11 @@
 namespace App\Tests\Unit;
 
 use App\Entity\Article;
+use App\Entity\Category;
+use App\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class CreateArticleTest extends KernelTestCase
+class ArticleTest extends KernelTestCase
 {
     public function getArticle(): Article 
     {
@@ -23,6 +25,46 @@ class CreateArticleTest extends KernelTestCase
             Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ac felis sit amet ligula pharetra condimentum. Etiam sit amet orci eget eros faucibus tincidunt. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla.')
             ->setImage('image')
             ->setStatus('Actif');
+    }
+
+    public function testIsTrueArticle()
+    {
+        $article = $this->getArticle();
+        $article->setContent('contenu');
+
+        $this->assertTrue($article->getTitle() === 'titre de l\'article'); 
+        $this->assertTrue($article->getAuthor() === 'Auteur'); 
+        $this->assertTrue($article->getContent() === 'contenu'); 
+        $this->assertTrue($article->getImage() === 'image'); 
+        $this->assertTrue($article->getStatus() === 'Actif');
+    }
+
+    public function testIsFalseArticle()
+    {
+
+        $article = $this->getArticle();
+        $article->setContent('contenu');
+        $article->setCreatedAt(new \DateTimeImmutable());
+        $article->setUpdatedAt(new \DateTimeImmutable());
+
+        $this->assertFalse($article->getTitle() === 'false'); 
+        $this->assertFalse($article->getAuthor() === 'false'); 
+        $this->assertFalse($article->getContent() === 'false'); 
+        $this->assertFalse($article->getImage() === 'false'); 
+        $this->assertFalse($article->getStatus() === 'false');
+        $this->assertFalse($article->getCreatedAt() === new \DateTimeImmutable());
+        $this->assertFalse($article->getUpdatedAt() === new \DateTimeImmutable());
+    }
+
+    public function testEmptyArticle()
+    {
+        $article = new Article();
+
+        $this->assertEmpty($article->getId());
+        $this->assertEmpty($article->getCategory());
+        $this->assertEmpty($article->getComments());
+        $this->assertEmpty($article->getImage());
+        $this->assertEmpty($article->getUser());
     }
 
     public function assertHasErrors(Article $article, int $number = 0 )
@@ -104,5 +146,29 @@ class CreateArticleTest extends KernelTestCase
         {
             $this->assertHasErrors($this->getArticle()->setStatus($choice), 1);
         }
+    }
+
+    public function testAddRemoveComment()
+    {
+        $article = $this->getArticle();
+        $comment = new Comment();
+
+        $this->assertEmpty($article->getComments());
+        $article->addComment($comment);
+        $this->assertContains($comment, $article->getComments());
+        $article->removeComment($comment);
+        $this->assertEmpty($article->getComments());
+    }
+
+    public function testAddRemoveCategory()
+    {
+        $article = $this->getArticle();
+        $category = new Category();
+
+        $this->assertEmpty($article->getCategory());
+        $article->addCategory($category);
+        $this->assertContains($category, $article->getCategory());
+        $article->removeCategory($category);
+        $this->assertEmpty($article->getCategory());
     }
 }
