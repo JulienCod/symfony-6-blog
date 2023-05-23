@@ -23,6 +23,33 @@ class CommentTest extends KernelTestCase
 
     }
 
+    public function testIsTrueComment()
+    {
+        $comment = $this->getComment();
+        $comment->setContent('contenu');
+
+        $this->assertTrue($comment->getAuthor() === 'Auteur');
+        $this->assertTrue($comment->getContent() === 'contenu');
+    }
+
+    public function testIsFalseComment()
+    {
+        $comment = $this->getComment();
+        $comment->setContent('contenu');
+        $comment->setCreatedAt(new \DateTimeImmutable());
+
+        $this->assertFalse($comment->getAuthor() === 'false');
+        $this->assertFalse($comment->getContent() === 'false');
+        $this->assertFalse($comment->getCreatedAt() === new \DateTimeImmutable());
+    }
+
+    public function testIsEmptyComment()
+    {
+        $comment = new Comment();
+
+        $this->assertEmpty($comment->getId());
+    }
+
     public function assertHasErrors(Comment $comment, int $number = 0 )
     {
         self::bootKernel();
