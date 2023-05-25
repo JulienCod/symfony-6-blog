@@ -50,6 +50,7 @@ class Article
     private Collection $comments;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'articles')]
+    #[ORM\JoinColumn(nullable: false)]
     private Collection $category;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
