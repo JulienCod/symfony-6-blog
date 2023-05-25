@@ -6,6 +6,9 @@ use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CategoryFixtures extends Fixture
 {
     private $counter = 1;
