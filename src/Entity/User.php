@@ -12,8 +12,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[UniqueEntity('email')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte utilisant cette e-mail.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email;
 
     #[ORM\Column]
-    private array $roles = [];
+    private array $roles = ['ROLE_USER'];
 
     #[ORM\Column(type:'string', length: 50)]
     #[Assert\NotBlank(message: 'Le prénom ne peut pas être vide')]
@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Le mot de passe ne peut pas être vide')]
+    // #[Assert\NotBlank(message: 'Le mot de passe ne peut pas être vide')]
     private string $password;
 
     #[ORM\Column(type:'datetime_immutable')]

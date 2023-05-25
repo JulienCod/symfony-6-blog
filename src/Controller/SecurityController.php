@@ -1,35 +1,36 @@
-<?php 
+<?php
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    
-    #[Route("/connexion", name:"app_login", methods: ['GET', 'POST'])]
+    #[Route(path: '/connexion', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // redirection d'un utilisateur déjà connecté
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_welcome');
+        }
 
-    // Récupérer les erreurs d'authentification et le dernier nom d'utilisateur entré
-    $error = $authenticationUtils->getLastAuthenticationError();
-    $lastUsername = $authenticationUtils->getLastUsername();
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-    return $this->render('welcome/welcome.html.twig', [
-        'last_username' => $lastUsername,
-        'error' => $error,
-    ]);
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error
+            ]);
     }
 
-    
-    #[Route("/deconnexion", name:"app_logout")]
-    
+    #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
-        // Cette méthode peut rester vide,
-        // car elle sera gérée par le système de déconnexion de Symfony.
+        throw new \LogicException('This method can be blank.');
     }
 }

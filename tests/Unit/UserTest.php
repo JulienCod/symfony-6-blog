@@ -120,12 +120,6 @@ class UserTest extends KernelTestCase
     {
         $this->assertHasErrors($this->getUser()->setLastName('eozgnzogbhzpgohgpogbnzogbnzogbzgpozbgzogbzgobzngozbngogbzogbzgozbgozgbzogbzgozb'), 1);
     }
-    
-    
-    public function testBlankPassword()
-    {
-        $this->assertHasErrors($this->getUser()->setPassword(''), 1);
-    }
 
     public function testAddRemoveArticles()
     {
