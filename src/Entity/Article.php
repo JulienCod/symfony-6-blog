@@ -27,10 +27,15 @@ class Article
     #[Assert\Length(min:50, minMessage:'Le contenu de l\'article ne doit pas contenir moins de 50 caractères.')]
     private string $Content;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message:'Le nom de l\'auteur ne peut pas être vide')]
     #[Assert\Length(min:2, max: 50, minMessage:'Le nom de l\'auteur ne doit pas contenir moins de 2 caractères.',maxMessage:'Le nom de l\'auteur ne doit pas contenir plus de 50 caractères.')]
     private string $Author;
+
+    #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message:'Le slug ne peut pas être vide')]
+    #[Assert\Length(min:2, max: 100, minMessage:'Le slug ne doit pas contenir moins de 2 caractères.',maxMessage:'Le slug ne doit pas contenir plus de 100 caractères.')]
+    private string $slug;
 
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
@@ -102,6 +107,18 @@ class Article
     public function setAuthor(string $Author): self
     {
         $this->Author = $Author;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
