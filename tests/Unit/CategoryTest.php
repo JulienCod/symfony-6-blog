@@ -12,27 +12,38 @@ class CategoryTest extends KernelTestCase
     {
         return (new Category())
             ->setName('name')
-            ->setDescription('In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Etiam ut purus mattis mauris sodales aliquam. Pellentesque auctor neque nec urna. Phasellus ullamcorper ipsum rutrum nunc. Sed fringilla mauris sit amet nibh.');    
+            ->setslug('name')
+            ->setCategoryOrder(1);
+    }
+    public function getCategory1(): Category
+    {
+        return (new Category())
+            ->setName('name1')
+            ->setslug('name1')
+            ->setCategoryOrder(2);
     }
 
     public function testIsTrueCategory()
     {
+        $category1 = $this->getCategory1();
         $category = $this->getCategory();
-        $category->setDescription('description');
+        $category->setParent($category1);
 
-        $this->assertTrue($category->getDescription() === 'description');
+        $this->assertTrue($category->getCategoryOrder() === 1);
         $this->assertTrue($category->getName() === 'name');
+        $this->assertTrue($category->getSlug() === 'name');
+        $this->assertTrue($category->getParent() === $category1);
         
     }
     
     public function testIsFalseCategory()
     {
         $category = $this->getCategory();
-        $category->setDescription('description');
         $category->setCreatedAt(new \DateTimeImmutable());
         $category->setUpdatedAt(new \DateTimeImmutable());
     
-        $this->assertFalse($category->getDescription() === 'false');
+        $this->assertFalse($category->getCategoryOrder() === 2);
+        $this->assertFalse($category->getslug() === 'false');
         $this->assertFalse($category->getName() === 'false');
         $this->assertFalse($category->getCreatedAt() === new \DateTimeImmutable());
         $this->assertFalse($category->getUpdatedAt() === new \DateTimeImmutable());
@@ -76,21 +87,6 @@ class CategoryTest extends KernelTestCase
         $this->assertHasErrors($this->getCategory()->setName('aopzghnzogbnzobzgozbzbzzbfzofzfobzfozbfzofbzofbzfozbfzofbzopfbzfpozbfpozfbfobzfozfbzofbzfozebfozbfzofbzpfobzfob'),1);
     }
 
-    public function testBlankDescriptionCategory()
-    {
-        $this->assertHasErrors($this->getCategory()->setDescription(''),2);
-    }
-
-    public function testMinLengthDescriptionCategory()
-    {
-        $this->assertHasErrors($this->getCategory()->setDescription('a'),1);
-    }
-
-    public function testMaxLengthDescriptionCategory()
-    {
-        $this->assertHasErrors($this->getCategory()->setName('aopzghnzogbnozefbnzepfobzefpozbfpezfbzpfzbfpofbzpfbzpfzbfzbfzfbzpfbzpfbezfpzbfpzebfpzebfpzebfzpofbzpefbzpfbzfbzpbzpfbezpfbzefpzebfpuzebgfpzbfpuozghfpouhzpfzbfpubzfpzbfpzbzobzgozbzbzzbfzofzfobzfozbfzofbzofbzfozbfzofbzopfbzfpozbfpozfbfobzfozfbzofbzfozebfozbfzofbzpfobzfob'),1);
-    }
-
     public function testAddRemoveArticleCategory() 
     {
         $category = $this->getCategory();
@@ -101,5 +97,17 @@ class CategoryTest extends KernelTestCase
         $this->assertContains($article, $category->getArticles());
         $category->removeArticle($article);
         $this->assertEmpty($category->getArticles());
+    }
+
+    public function testAddRemoveCategory()
+    {
+        $category1 = $this->getCategory1();
+        $category = $this->getCategory();
+
+        $this->assertEmpty($category->getCategories());
+        $category->addCategory($category1);
+        $this->assertContains($category1, $category->getCategories());
+        $category->removeCategory($category1);
+        $this->assertEmpty($category->getCategories());
     }
 }

@@ -17,7 +17,8 @@ class UserTest extends KernelTestCase
             ->setLastName('nom')
             ->setEmail('email@email.fr')
             ->setPassword('Password123')
-            ->setRoles(['ROLE_USER']);        
+            ->setRoles(['ROLE_USER'])
+            ->setIsVerified(true);        
     }
 
     public function testIsTrue()
@@ -29,6 +30,7 @@ class UserTest extends KernelTestCase
         $this->assertTrue($user->getPassword() === 'Password123');
         $this->assertTrue($user->getRoles() === ['ROLE_USER']);
         $this->assertTrue($user->getUserIdentifier() === 'email@email.fr');
+        $this->assertTrue($user->getIsVerified() === true);
 
     }
 
@@ -44,6 +46,7 @@ class UserTest extends KernelTestCase
         $this->assertFalse($user->getEmail() === 'false@email.fr');
         $this->assertFalse($user->getPassword() === 'false');
         $this->assertFalse($user->getRoles() === ['ROLE_FALSE']);
+        $this->assertFalse($user->getIsVerified() === false);
         $this->assertFalse($user->getCreatedAt() === new \DateTimeImmutable());
         $this->assertFalse($user->getUpdatedAt() === new \DateTimeImmutable());
     }
