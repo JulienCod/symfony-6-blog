@@ -21,10 +21,13 @@ class Category
     #[Assert\Length(min: 2, max: 50, minMessage: "Le nom de la catégorie ne peut pas contenir moins de 2 caractères.", maxMessage: "Le nom de la catégorie ne peut pas contenir plus de 50 caractères.")]
     private string $name;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
-    #[Assert\Length(min:20, max:255, minMessage: "La description ne peut pas contenir moins de 20 caractères.", maxMessage: "La description ne peut pas contenir plus de 255 caractères.")]
-    private string $description;
+    #[ORM\Column(type: 'integer')]
+    private ?int $categoryOrder = null;
+
+    #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: "La slug ne peut pas être vide.")]
+    #[Assert\Length(min:2, max:100, minMessage: "La slug ne peut pas contenir moins de 2 caractères.", maxMessage: "La slug ne peut pas contenir plus de 100 caractères.")]
+    private string $slug;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -35,11 +38,19 @@ class Category
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'category')]
     private Collection $articles;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'categories')]
+    #[ORM\JoinColumn(onDelete:'CASCADE')]
+    private ?self $parent = null;
+
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+    private Collection $categories;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->articles = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,15 +69,26 @@ class Category
 
         return $this;
     }
-
-    public function getDescription(): ?string
+    public function getCategoryOrder(): ?int
     {
-        return $this->description;
+        return $this->categoryOrder;
     }
 
-    public function setDescription(string $description): self
+    public function setCategoryOrder(int $categoryOrder): self
     {
-        $this->description = $description;
+        $this->categoryOrder = $categoryOrder;
+
+        return $this;
+    }
+
+    public function getslug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setslug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
@@ -117,6 +139,48 @@ class Category
     {
         if ($this->articles->removeElement($article)) {
             $article->removeCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(self $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(self $category): self
+    {
+        if ($this->categories->removeElement($category)) {
+            // set the owning side to null (unless already changed)
+            if ($category->getParent() === $this) {
+                $category->setParent(null);
+            }
         }
 
         return $this;
