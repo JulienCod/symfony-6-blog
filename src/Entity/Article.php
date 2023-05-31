@@ -33,9 +33,9 @@ class Article
     private string $Author;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message:'Le slug ne peut pas être vide')]
-    #[Assert\Length(min:2, max: 100, minMessage:'Le slug ne doit pas contenir moins de 2 caractères.',maxMessage:'Le slug ne doit pas contenir plus de 100 caractères.')]
-    private string $slug;
+    //#[Assert\NotBlank(message:'Le slug ne peut pas être vide')]
+    //#[Assert\Length(min:2, max: 100, minMessage:'Le slug ne doit pas contenir moins de 2 caractères.',maxMessage:'Le slug ne doit pas contenir plus de 100 caractères.')]
+    private ?string $slug = null;
 
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
@@ -57,10 +57,6 @@ class Article
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private Collection $category;
-
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
 
     public function __construct()
     {
@@ -116,7 +112,7 @@ class Article
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
 
@@ -221,18 +217,6 @@ class Article
     public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

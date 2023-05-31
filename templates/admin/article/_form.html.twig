@@ -1,0 +1,10 @@
+{{ form_start(articleForm) }}
+    {{ form_row(articleForm.title)}}
+    {{ form_row(articleForm.Content)}}
+    {{ form_row(articleForm.Author)}}
+    {{ form_row(articleForm.category)}}
+    {{ form_row(articleForm.image)}}
+    {{ form_row(articleForm.status)}}
+
+    <button class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">{{button_label|default('Ajouter')}}</button>
+{{ form_end(articleForm) }}
