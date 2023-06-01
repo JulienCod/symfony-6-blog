@@ -59,14 +59,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type:'boolean')]
     private $is_verified = false;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class)]
-    private Collection $articles;
+    #[ORM\Column(type:'string', length:100)]
+    private $resetToken = false;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
-        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,33 +214,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Article>
-     */
-    public function getArticles(): Collection
+    public function getResetToken(): ?string
     {
-        return $this->articles;
+        return $this->resetToken;
     }
 
-    public function addArticle(Article $article): self
+    public function setResetToken(?string $resetToken): self
     {
-        if (!$this->articles->contains($article)) {
-            $this->articles->add($article);
-            $article->setUser($this);
-        }
-
+        $this->resetToken = $resetToken;
         return $this;
     }
 
-    public function removeArticle(Article $article): self
-    {
-        if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
-            if ($article->getUser() === $this) {
-                $article->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 }

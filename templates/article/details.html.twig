@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article
+	{{article.title}}
+{% endblock %}
+
+{% block body %}
+	<main class="container-2xl mt-4 ml-auto mr-auto">
+		<section class="max-w-screen-2xl">
+			<h1 class="text-2xl text-center">Article {{article.title}}</h1>
+            <div>
+                <p>
+                    Auteur : {{article.author}}
+                </p>
+                <p>
+                {% for category in article.category %}
+                    Catégorie : {{ category.name }}
+                {% endfor %}
+                </p>
+                <p>
+                    publié le : {{ article.createdAt|date('d-m-Y H:i:s') }}
+                </p>
+            </div>
+			<div>
+				<img src="{{ asset('assets/uploads/articles/' ~ article.image)}}" alt=""/>
+			</div>
+			<div>
+                {{article.content}}
+            </div>
+		</section>
+	</main>
+
+{% endblock %}

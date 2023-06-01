@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des articles
+{% endblock %}
+
+{% block body %}
+	<div class="">
+		<main class="container-2xl mt-4 ml-auto mr-auto">
+			<section class="max-w-screen-2xl">
+				<h1 class="m-4 text-2xl text-center">Administration des articles</h1>
+					<h2 class="text-red-500 text-1xl text-center">Article Inatif</h2>
+				{% for article in articlesInactif %}
+					<div>
+						<p>
+							Auteur :
+							{{article.author}}
+						</p>
+						<p>
+							{# {% for category in article.category %}
+								Catégorie :
+								{{ category.name }}
+							{% endfor %} #}
+						</p>
+						<p>
+							publié le :
+							{{ article.createdAt|date('d-m-Y H:i:s') }}
+						</p>
+					</div>
+					<div>
+						<img src="{{ asset('assets/uploads/articles/' ~ article.image)}}" alt=""/>
+					</div>
+					<div>
+						{{article.content}}
+					</div>
+				{% endfor %}
+					
+					<h2 class="text-orange-500 text-1xl text-center">Article Brouillon</h2>
+				{% for article in articlesBrouillon %}
+
+					<div>
+						<p>
+							Auteur :
+							{{article.author}}
+						</p>
+						<p>
+							{# {% for category in article.category %}
+								Catégorie :
+								{{ category.name }}
+							{% endfor %} #}
+						</p>
+						<p>
+							publié le :
+							{{ article.createdAt|date('d-m-Y H:i:s') }}
+						</p>
+					</div>
+					<div>
+						<img src="{{ asset('assets/uploads/articles/' ~ article.image)}}" alt=""/>
+					</div>
+					<div>
+						{{article.content}}
+					</div>
+				{% endfor %}
+					<h2 class="text-green-500 text-1xl text-center">Article actif</h2>
+				{% for article in articlesActif %}
+					<div>
+						<p>
+							Auteur :
+							{{article.author}}
+						</p>
+						<p>
+							{# {% for category in article.category %}
+								Catégorie :
+								{{ category.name }}
+							{% endfor %} #}
+						</p>
+						<p>
+							publié le :
+							{{ article.createdAt|date('d-m-Y H:i:s') }}
+						</p>
+					</div>
+					<div>
+						<img src="{{ asset('assets/uploads/articles/' ~ article.image)}}" alt=""/>
+					</div>
+					<div>
+						{{article.content}}
+					</div>
+				{% endfor %}
+                <h2 class="text-yellow-500 text-1xl text-center">Article Archive</h2>
+				{% for article in articlesArchive %}
+					<div>
+						<p>
+							Auteur :
+							{{article.author}}
+						</p>
+						<p>
+							{# {% for category in article.category %}
+								Catégorie :
+								{{ category.name }}
+							{% endfor %} #}
+						</p>
+						<p>
+							publié le :
+							{{ article.createdAt|date('d-m-Y H:i:s') }}
+						</p>
+					</div>
+					<div>
+						<img src="{{ asset('assets/uploads/articles/' ~ article.image)}}" alt=""/>
+					</div>
+					<div>
+						{{article.content}}
+					</div>
+				{% endfor %}
+			</section>
+		</main>
+	</div>
+{% endblock %}

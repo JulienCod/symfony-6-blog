@@ -24,6 +24,7 @@ class ArticleTest extends KernelTestCase
             
             Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ac felis sit amet ligula pharetra condimentum. Etiam sit amet orci eget eros faucibus tincidunt. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla.')
             ->setImage('image')
+            ->setSlug('titre de l\'article')
             ->setStatus('Actif');
     }
 
@@ -37,6 +38,7 @@ class ArticleTest extends KernelTestCase
         $this->assertTrue($article->getContent() === 'contenu'); 
         $this->assertTrue($article->getImage() === 'image'); 
         $this->assertTrue($article->getStatus() === 'Actif');
+        $this->assertTrue($article->getSlug() === 'titre de l\'article');
     }
 
     public function testIsFalseArticle()
@@ -52,6 +54,7 @@ class ArticleTest extends KernelTestCase
         $this->assertFalse($article->getContent() === 'false'); 
         $this->assertFalse($article->getImage() === 'false'); 
         $this->assertFalse($article->getStatus() === 'false');
+        $this->assertFalse($article->getSlug() === 'false');
         $this->assertFalse($article->getCreatedAt() === new \DateTimeImmutable());
         $this->assertFalse($article->getUpdatedAt() === new \DateTimeImmutable());
     }

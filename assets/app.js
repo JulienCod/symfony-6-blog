@@ -9,3 +9,11 @@
 import './styles/app.css';
 
 import 'flowbite';
+
+let close = document.querySelector('.btn-close-flash-verify');
+let alertVerify = document.querySelector('.flash-verify');
+close.addEventListener('click', function(e) {
+    e.preventDefault();
+    alertVerify.classList.remove('flex');
+    alertVerify.classList.add('hidden');
+});
