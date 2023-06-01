@@ -7,11 +7,13 @@ use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Validator\Constraints\Image;
 
 class ArticleFormType extends AbstractType
 {
@@ -71,18 +73,35 @@ class ArticleFormType extends AbstractType
                 ],
                 'constraints'=>[
                     new Assert\NotBlank([
-                        'message' => 'Veuillez renseigner votre prénom',
+                        'message' => 'Veuillez renseigner votre l\'auteur',
                     ]),
                     new Assert\Length([
                         'min'=>2, 
-                        'minMessage' => 'Votre prénom ne peut pas contenir moins de {{ limit }} caractères',
+                        'minMessage' => 'L\'auteur ne peut pas contenir moins de {{ limit }} caractères',
                         'max'=>50,
-                        'maxMessage' => 'Votre prénom ne peut pas contenir plus de {{ limit }} caractères',
+                        'maxMessage' => 'L\'auteur ne peut pas contenir plus de {{ limit }} caractères',
                         ])
                 ]
             ])
-            ->add('image')
-            ->add('status',TextType::class, [
+            ->add('image', FileType::class,[
+                'label' => 'Images',
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false,
+                // 'constraints' => [
+                //     new Image([
+                //         'maxWidth' => 1280,
+                //         'maxWidthMassage' => 'L\'image doit faire 1280 pixels de large maximum'
+                //     ])
+                // ]
+            ])
+            ->add('status',ChoiceType::class, [
+                'choices'=> [
+                    'Actif' => 'Actif',
+                    'Brouillon' => 'Brouillon',
+                    'Archive' => 'Archive',
+                    'Inactif' => 'Inactif',
+                ],
                 'attr'=>[
                     'class' => 'bg-gray-50 border mb-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                     'minlength'=> '2',
@@ -94,19 +113,27 @@ class ArticleFormType extends AbstractType
                 ],
                 'constraints'=>[
                     new Assert\NotBlank([
-                        'message' => 'Veuillez renseigner votre prénom',
+                        'message' => 'Veuillez renseigner votre statut',
                     ]),
                     new Assert\Length([
                         'min'=>2, 
-                        'minMessage' => 'Votre prénom ne peut pas contenir moins de {{ limit }} caractères',
+                        'minMessage' => 'Votre statut ne peut pas contenir moins de {{ limit }} caractères',
                         'max'=>50,
-                        'maxMessage' => 'Votre prénom ne peut pas contenir plus de {{ limit }} caractères',
+                        'maxMessage' => 'Votre statut ne peut pas contenir plus de {{ limit }} caractères',
                         ])
                 ]
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
+                'attr'=>[
+                    'class' => 'bg-gray-50 border mb-2 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
+                    'minlength'=> '2',
+                    'maxlength' => "50",
+                ],
+                'label_attr'=>[
+                    'class' => "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                ],
                 'label' => 'Categories',
                 'multiple' => true, // Si vous souhaitez autoriser la sélection multiple
                 'expanded' => false, // Si vous souhaitez afficher les catégories sous forme de cases à cocher au lieu d'une liste déroulante

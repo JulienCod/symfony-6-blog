@@ -13,15 +13,12 @@ class ArticleController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(): Response
     {
-        return $this->render('article/index.html.twig', [
-            'controller_name' => 'ArticleController',
-        ]);
+        return $this->render('article/index.html.twig');
     }
 
     #[Route('/{slug}', name: 'details')]
     public function details(Article $article): Response
     {
-        // dd($article->getCategory());
-        return $this->render('article/details.html.twig', compact('article',));
+        return $this->render('article/details.html.twig', compact('article'));
     }
 }
