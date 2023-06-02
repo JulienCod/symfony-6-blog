@@ -2,11 +2,11 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="description" content="{% block meta_description %}{% endblock %}">
 		<title>
-			{% block title %}Welcome!
-			{% endblock %}
+			{% block title %}{% endblock %}
 		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		<link rel="icon" href="/images/logos/favicon 3d.png">
 
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
@@ -17,9 +17,7 @@
 		{% endblock %}
 	</head>
 	<body class="w-full min-h-screen flex flex-col">
-		{% block header %}
-			{% include "partials/_header.html.twig" %}
-		{% endblock %}
+	{% include "partials/_header.html.twig" %}
 		{% if app.user and app.user.isVerified == false %}
 			<div class="flash-verify container ml-auto mr-auto px-8 py-6 bg-yellow-400 text-white flex justify-between rounded">
 				<div class=" flex items-center">
