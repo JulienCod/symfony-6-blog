@@ -20,34 +20,8 @@ class ArticleController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(ArticleRepository $articleRepository): Response
     {
-        $statuses = ['Actif', 'Inactif', 'Archive', 'Brouillon'];
-        $articlesByStatus = $articleRepository->findBy(['status' => $statuses]);
-
-        $articlesActif = [];
-        $articlesInactif = [];
-        $articlesArchive = [];
-        $articlesBrouillon = [];
-
-        foreach ($articlesByStatus as $article) {
-            switch ($article->getStatus()) {
-                case 'Actif':
-                    $articlesActif[] = $article;
-                    break;
-                case 'Inactif':
-                    $articlesInactif[] = $article;
-                    break;
-                case 'Archive':
-                    $articlesArchive[] = $article;
-                    break;
-                case 'Brouillon':
-                    $articlesBrouillon[] = $article;
-                    break;
-                default:
-                    // Traitement en cas de statut inconnu
-                    break;
-            }
-        }
-        return $this->render('admin/article/index.html.twig', compact('articlesActif','articlesBrouillon','articlesInactif','articlesArchive'));
+        $articles = $articleRepository->findAll();
+        return $this->render('admin/article/index.html.twig', compact('articles'));
     }
     #[Route('/ajout', name: 'add')]
     public function add(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, PictureService $pictureService): Response
@@ -155,7 +129,7 @@ class ArticleController extends AbstractController
             'controller_name' => 'ArticleController',
         ]);
     }
-    #[Route('/suppression/{id}', name: 'remove')]
+    #[Route('/suppression/{id}', name: 'delete')]
     public function delete(Article $article): Response
     {
         return $this->render('admin/article/index.html.twig');

@@ -1,23 +1,36 @@
 <header class="bg-gray-800 text-white py-4">
 	<div class="max-w-screen-2xl m-auto flex items-center justify-around">
-		<a href="{{ path('app_welcome') }}">
-			<img src="/images/logos/J Julien web&co Bleu-blanc.webp" alt="Logo du blog" class="w-28">
-		</a>
-		<p class="text-2xl font-bold">Le blog du Dévellopeur</p>
-		<div>
 		{% if app.user %}
-			<a href="{{ path('app_logout')}}" type="button" name="Deconnexion" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" >
-				deconnexion
-			</a>
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('admin_index') }}">
+					<img src="/images/logos/J Julien web&co Bleu-blanc.webp" alt="Logo du blog" class="w-28">
+				</a>
+			{% endif %}
 		{% else %}
-			<a href={{ path('app_register')}} type="button" name="Connexion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >
-				Création d'un compte
-			</a>
-			<a href={{ path('app_login')}} type="button" name="Connexion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >
-				Connexion
+			<a href="{{ path('app_welcome') }}">
+				<img src="/images/logos/J Julien web&co Bleu-blanc.webp" alt="Logo du blog" class="w-28">
 			</a>
 		{% endif %}
+		<p class="text-2xl font-bold">Le Super blog</p>
+		<div>
+			{% if app.user %}
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('app_welcome') }}">
+						accueil
+					</a>
+				{% endif %}
+				<a href="{{ path('app_logout')}}" type="button" name="Deconnexion" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+					deconnexion
+				</a>
+			{% else %}
+				<a href={{ path('app_register')}} type="button" name="Connexion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+					Création d'un compte
+				</a>
+				<a href={{ path('app_login')}} type="button" name="Connexion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+					Connexion
+				</a>
+			{% endif %}
 		</div>
 	</div>
-	
+
 </header>
