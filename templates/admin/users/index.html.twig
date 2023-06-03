@@ -5,85 +5,90 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Liste des Utilisateurs</h1>
-	<!-- drawer init and show -->
-	<div class="text-center">
-		<button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
-			Show navigation
-		</button>
-	</div>
-	{% include 'partials/_adminNav.html.twig' %}
+	<main class="mb-48">
+		<article class="container m-auto">
 
+			<h1 class="text-2xl text-center mt-4 mb-4">Liste des Utilisateurs</h1>
+			<!-- drawer init and show -->
+			<div class="text-center">
+				<button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+					Afficher le menu
+				</button>
+			</div>
+			{% include 'partials/_adminNav.html.twig' %}
 
-	<div class="relative overflow-x-auto m-4">
-		<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-			<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-				<tr>
-					<th scope="col" class="px-6 py-3">
-						ID
-					</th>
-					<th scope="col" class="px-6 py-3">
-						Email
-					</th>
-					<th scope="col" class="px-6 py-3">
-						Prénom
-					</th>
-					<th scope="col" class="px-6 py-3">
-						Nom
-					</th>
-					<th scope="col" class="px-6 py-3">
-						Rôles
-					</th>
-					<th scope="col" class="px-6 py-3">
-						Vérifié
-					</th>
-					<th scope="col" class="px-6 py-3">
-						Actions
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for user in users %}
-					<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-						<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-							{{ user.id }}
-						</th>
-						<td class="px-6 py-4">
-							{{user.email}}
-						</td>
-						<td class="px-6 py-4">
-							{{ user.firstname }}
-						</td>
-						<td class="px-6 py-4">
-							{{ user.lastname }}
-						</td>
-						<td class="px-6 py-4">
-							{% for role in user.roles %}
-								{% if role == 'ROLE_ADMIN' %}
-									{% set name = "Administrateur" %}
-									{% set color = 'red' %}
-								{% else %}
-									{% set name = "Membre" %}
-									{% set color = 'blue' %}
-								{% endif %}
-								<span class="bg-{{color}}-100 text-{{color}}-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-{{color}}-400 border border-{{color}}-400">{{name}}</span>
-							{% endfor %}
-						</td>
-						<td class="px-6 py-4">
-							<label for="switch{{user.id}}" class="relative inline-flex items-center mr-5 cursor-pointer">
-								<input id="switch{{user.id}}" role="switch" type="checkbox" value="" class="sr-only peer" {{ user.isverified ? "checked" : ""}} disabled>
-								<div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-							</label>
-						</td>
-						<td class="px-6 py-4">
-							<a type="button" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900" href="#">Modifier</a>
-							<a type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" href="#">Supprimer</a>
-						</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-
+			<div class="relative overflow-x-auto m-4">
+				<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+						<tr>
+							<th scope="col" class="px-6 py-3">
+								ID
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Email
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Prénom
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Nom
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Rôles
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Vérifié
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Actions
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for user in users %}
+							<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+								<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+									{{ user.id }}
+								</th>
+								<td class="px-6 py-4">
+									{{user.email}}
+								</td>
+								<td class="px-6 py-4">
+									{{ user.firstname }}
+								</td>
+								<td class="px-6 py-4">
+									{{ user.lastname }}
+								</td>
+								<td class="px-6 py-4">
+									{% for role in user.roles %}
+										{% if role == 'ROLE_ADMIN' %}
+											{% set name = "Administrateur" %}
+											{% set color = 'red' %}
+										{% else %}
+											{% set name = "Membre" %}
+											{% set color = 'blue' %}
+										{% endif %}
+										<div class="m-4">
+										<span class=" bg-{{color}}-100 text-{{color}}-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-{{color}}-400 border border-{{color}}-400">{{name}}</span>
+										</div>
+									{% endfor %}
+								</td>
+								<td class="px-6 py-4">
+									<label for="switch{{user.id}}" class="relative inline-flex items-center mr-5 cursor-pointer">
+										<input id="switch{{user.id}}" role="switch" type="checkbox" value="" class="sr-only peer" {{ user.isverified ? "checked" : ""}} disabled>
+										<div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+									</label>
+								</td>
+								<td class="px-6 py-4">
+									<a type="button" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900" href="#">Modifier</a>
+									<a type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" href="#">Supprimer</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</article>
+	</main>
 
 {% endblock %}

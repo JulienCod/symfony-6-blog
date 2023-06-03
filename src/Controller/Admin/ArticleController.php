@@ -7,11 +7,13 @@ use App\Form\ArticleFormType;
 use App\Service\PictureService;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Util\Json;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/admin/article', name: 'admin_article_')]
 class ArticleController extends AbstractController
@@ -129,10 +131,22 @@ class ArticleController extends AbstractController
             'controller_name' => 'ArticleController',
         ]);
     }
-    #[Route('/suppression/{id}', name: 'delete')]
-    public function delete(Article $article): Response
+    #[Route('/archive/{id}', name: 'archive')]
+    public function delete(Article $article, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('admin/article/index.html.twig');
+        if ($article){
+            $article->setStatus('Archive');
+            $entityManager->persist($article);
+            $entityManager->flush();
+            $message = 'L\'article à bien été archivé';
+            $status = 'success';
+        }else{
+            $status = 'warning';
+            $message = 'L\article demandé n\'existe pas';
+        }
+        $this->addFlash($status, $message);
+
+        return $this->redirectToRoute('admin_article_index');
     }
 
 }
