@@ -18,7 +18,11 @@ class WelcomeController extends AbstractController
         
         return $this->render('welcome/welcome.html.twig', [
             'categories' => $categoryRepository->findBy([],['categoryOrder' => 'asc']),
-            'articles' => $articleRepository->findBy([],['createdAt' => 'desc'],6),
+            'articles' => $articleRepository->findBy(
+                ['status' => 'Actif'], // Critère de recherche : statut "Actif"
+                ['createdAt' => 'desc'], // Critère de tri : date de création décroissante
+                6 // Limite de résultats : 6 articles
+            ),
         ]);
     }
 }

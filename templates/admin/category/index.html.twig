@@ -5,64 +5,69 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Liste des categories</h1>
-	<!-- drawer init and show -->
-	<div class="text-center">
-		<button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
-			Show navigation
-		</button>
-	</div>
-	{% include 'partials/_adminNav.html.twig' %}
-    
-    
-<div class="relative overflow-x-auto m-4">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    ID
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Nom
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Parent
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Slug
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Ordre
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ category.id }}
-                </th>
-                <td class="px-6 py-4">
-                    {{ category.name }}
-                </td>
-                <td class="px-6 py-4">
-                {% if category.parent is not null %}
-                    {{ category.parent.name }}
-                {% endif %}
-                </td>
-                <td class="px-6 py-4">
-                    {{ category.slug }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ category.categoryOrder }}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+	<main class="mb-48">
+		<article class="container m-auto">
 
+			<h1 class="text-2xl text-center mt-4 mb-4">Liste des categories</h1>
+			<!-- drawer init and show -->
+			<div class="text-center">
+				<button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+										Afficher le menu
+
+				</button>
+			</div>
+			{% include 'partials/_adminNav.html.twig' %}
+
+
+			<div class="relative overflow-x-auto m-4">
+				<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+						<tr>
+							<th scope="col" class="px-6 py-3">
+								ID
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Nom
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Parent
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Slug
+							</th>
+							<th scope="col" class="px-6 py-3">
+								Ordre
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for category in categories %}
+
+							<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+								<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+									{{ category.id }}
+								</th>
+								<td class="px-6 py-4">
+									{{ category.name }}
+								</td>
+								<td class="px-6 py-4">
+									{% if category.parent is not null %}
+										{{ category.parent.name }}
+									{% endif %}
+								</td>
+								<td class="px-6 py-4">
+									{{ category.slug }}
+								</td>
+								<td class="px-6 py-4">
+									{{ category.categoryOrder }}
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</article>
+	</main>
 
 
 {% endblock %}

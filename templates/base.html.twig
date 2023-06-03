@@ -13,19 +13,28 @@
 		{% endblock %}
 
 		{% block javascripts %}
+			<script>
+				// On page load or when changing themes, best to add inline in `head` to avoid FOUC
+				if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+				document.documentElement.classList.add('dark');
+				} else {
+				document.documentElement.classList.remove('dark')
+				}
+			</script>
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
-	<body class="w-full min-h-screen flex flex-col">
-	{% include "partials/_header.html.twig" %}
+	<body class="w-full min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
+		{% include "partials/_header.html.twig" %}
+		
 		{% if app.user and app.user.isVerified == false %}
 			<div class="flash-verify container ml-auto mr-auto px-8 py-6 bg-yellow-400 text-white flex justify-between rounded">
 				<div class=" flex items-center">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-6" viewbox="0 0 20 20" fill="currentColor">
 						<path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
 					</svg>
-					<p>Attention ! Votre compte n'est pas activé , 
-					<a class="text-white font-bold underline italic" href='{{ path("resend_verif")}}'>renvoyer le lien d'activation</a>
+					<p>Attention ! Votre compte n'est pas activé ,
+						<a class="text-white font-bold underline italic" href='{{ path("resend_verif")}}'>renvoyer le lien d'activation</a>
 					</p>
 				</div>
 				<button class="text-yellow-100 hover:text-white btn-close-flash-verify">
