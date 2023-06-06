@@ -1,20 +1,20 @@
 {{ form_start(articleForm) }}
-    {{ form_row(articleForm.title)}}
-    {{ form_row(articleForm.Content)}}
-    {{ form_row(articleForm.Author)}}
-    {{ form_row(articleForm.category)}}
-    {{ form_row(articleForm.image)}}
-    {{ form_row(articleForm.status)}}
+{{ form_row(articleForm.title)}}
+{{ form_row(articleForm.Content)}}
+{{ form_row(articleForm.Author)}}
+{{ form_row(articleForm.category)}}
+{{ form_row(articleForm.image)}}
+{{ form_row(articleForm.status)}}
 
-    {# on affiche les image si on est en édition #}
+{# on affiche les image si on est en édition #}
 
-    {% if app.request.attributes.get('_route') == 'admin_article_edit' %}
-        <p class="mt-4 mb-4">Image actuel</p>
-        <div class="flex ">
-            <img src="{{ asset('assets/uploads/articles/mini/300x300-' ~ article.image)}}" alt="Image" width="150">
-            <a class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" href="" data-delete data-token="{{ csrf_token('delete') ~ article.image}}">Supprimer</a>
-        </div>
-    {% endif %}
+{% if app.request.attributes.get('_route') == 'admin_article_edit' %}
+	<div class="flex items-center gap-4 mb-4 mt-4">
+		<p class="text-blue-900 dark:text-gray-300">Image actuel</p>
+		<img src="{{ asset('assets/uploads/articles/mini/300x300-' ~ article.image)}}" alt="Image" width="150">
+		<a class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" href="" data-delete data-token="{{ csrf_token('delete') ~ article.image}}">Supprimer</a>
+	</div>
+{% endif %}
 
-    <button class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">{{button_label|default('Ajouter')}}</button>
+<button class="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-gray-700 border border-gray-300 dark:hover:bg-gray-400 focus:outline-none dark:focus:ring-gray-700" type="submit">{{button_label|default('Ajouter')}}</button>
 {{ form_end(articleForm) }}

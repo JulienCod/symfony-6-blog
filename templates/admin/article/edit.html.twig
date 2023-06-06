@@ -1,13 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends './admin/index.html.twig' %}
 
-{% block title %}Administration des articles
+{% block meta_description %}
+	Page d'édition des articles pour le blog de Julien web&co freelance
 {% endblock %}
 
-{% block body %}
-	<main class="mb-48">
-	<article class="container m-auto">
-		<h1 class="text-center text-2xl mt-4 mb-4">Modifier un article</h1>
+{% block title %}
+	Administration des articles
+{% endblock %}
+
+{% block h1 %}
+	Modifier un article
+{% endblock %}
+{% block content %}
+	<section>
 		{% include "admin/article/_form.html.twig" with {'button_label':'Modifier'} %}
-	</article>
-	</main>
+	</section>
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!
+{% endblock %}
+
+{% block body %}
+	<main class="container-2xl mx-auto mb-48 py-8">
+		<article>
+			<h1 class="text-2xl text-center my-4 text-gray-900 dark:text-gray-300">Compte de {{ user.firstname }}  {{ user.lastName }}</h1>
+			{% block content %}{% endblock %}
+		</article>
+	</main>
+{% endblock %}
