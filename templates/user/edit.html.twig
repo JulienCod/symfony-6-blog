@@ -1,0 +1,18 @@
+{% extends './user/index.html.twig' %}
+
+{% block meta_description %}
+    Page de gestion du compte utilisateur pour le blog de Julien web&co freelance
+{% endblock %}
+
+{% block title %}
+    Compte utilisateur
+{% endblock %}
+
+{% block content %}
+    <section>
+        {% include "user/_form.html.twig" %}
+        <div>
+            <a class="text-gray-900 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-500" href="{{ path('forgotten_password') }}">Changer de mot de passe</a>
+        </div>
+    </section>
+{% endblock %}

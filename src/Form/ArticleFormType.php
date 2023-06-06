@@ -13,7 +13,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Image;
 
 class ArticleFormType extends AbstractType
 {
@@ -88,6 +87,9 @@ class ArticleFormType extends AbstractType
                 'multiple' => false,
                 'mapped' => false,
                 'required' => false,
+                'label_attr' => [
+                    'class' => 'text-gray-900 dark:text-gray-300'
+                ]
                 // 'constraints' => [
                 //     new Image([
                 //         'maxWidth' => 1280,

@@ -1,83 +1,76 @@
-{% extends 'base.html.twig' %}
+{% extends './admin/index.html.twig' %}
+
+{% block meta_description %}
+	Page d'administration des articles pour le blog de Julien web&co freelance
+{% endblock %}
 
 {% block title %}
 	Liste des articles
 {% endblock %}
 
-{% block body %}
-	<main class="mb-48">
-		<article class="container m-auto">
-			<h1 class="text-center text-2xl mt-4 mb-4">Liste des articles</h1>
-			<!-- drawer init and show -->
-			<div class="text-center">
-				<button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
-					Afficher le menu
-				</button>
-			</div>
-			{% include 'partials/_adminNav.html.twig' %}
+{% block h1 %}
+	Liste des articles
+{% endblock %}
 
-
-			<div class="relative overflow-x-auto m-4">
-				<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-						<tr>
-							<th scope="col" class="px-6 py-3">
-								ID
-							</th>
-							<th scope="col" class="px-6 py-3">
-								Titre
-							</th>
-							<th scope="col" class="px-6 py-3">
-								Image
-							</th>
-							<th scope="col" class="px-6 py-3">
-								Slug
-							</th>
-							<th scope="col" class="px-6 py-3">
-								Statut
-							</th>
-							<th scope="col" class="px-6 py-3">
-								Action
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for article in articles %}
-							<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-								<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-									{{ article.id }}
-								</th>
-								<td class="px-6 py-4">
-									{{ article.title }}
-								</td>
-								<td class="px-6 py-4">
-									<img width="125px" src="{{ asset('assets/uploads/articles/mini/300x300-' ~ article.image )}}" alt="{{article.title}}"/>
-								</td>
-								<td class="px-6 py-4">
-									{{ article.slug }}
-								</td>
-								<td class="px-6 py-4">
-									{% if article.status == 'Inactif' %}
-										{% set color = 'red' %}
-									{% elseif article.status == 'Archive' %}
-										{% set color = 'yellow' %}
-									{% elseif article.status == 'Brouillon' %}
-										{% set color = 'blue' %}
-									{% elseif article.status == 'Actif' %}
-										{% set color = 'green' %}
-									{% endif %}
-									<span class="bg-{{color}}-400 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark: dark:text-{{color}}-400 border border-{{color}}-800">{{article.status}}</span>
-								</td>
-								<td class="px-6 py-4">
-									<a href="{{ path('admin_article_edit', {id: article.id})}}" type="button" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900">Modifier</a>
-									<a href="{{ path('admin_article_archive', {id: article.id})}}" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Archiver</a>
-								</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		</article>
-	</main>
-
+{% block content %}
+	<section class="relative overflow-x-auto m-4">
+		<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+			<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+				<tr>
+					<th scope="col" class="px-6 py-3">
+						ID
+					</th>
+					<th scope="col" class="px-6 py-3">
+						Titre
+					</th>
+					<th scope="col" class="px-6 py-3">
+						Image
+					</th>
+					<th scope="col" class="px-6 py-3">
+						Slug
+					</th>
+					<th scope="col" class="px-6 py-3">
+						Statut
+					</th>
+					<th scope="col" class="px-6 py-3">
+						Action
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for article in articles %}
+					<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+						<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+							{{ article.id }}
+						</th>
+						<td class="px-6 py-4">
+							{{ article.title }}
+						</td>
+						<td class="px-6 py-4">
+							<img width="125px" src="{{ asset('assets/uploads/articles/mini/300x300-' ~ article.image )}}" alt="{{article.title}}"/>
+						</td>
+						<td class="px-6 py-4">
+							{{ article.slug }}
+						</td>
+						<td class="px-6 py-4">
+							{% if article.status == 'Inactif' %}
+								{% set color = "red" %}
+							{% elseif article.status == 'Archive' %}
+								{% set color = "yellow" %}
+							{% elseif article.status == 'Brouillon' %}
+								{% set color = "blue" %}
+							{% elseif article.status == 'Actif' %}
+								{% set color = "green" %}
+							{% endif %}
+							<span class="bg-{{color}}-400 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-{{color}}-500">{{article.status}}</span>
+						</td>
+						<td class="px-6 py-4">
+							<a href="{{ path('admin_article_edit', {id: article.id})}}" type="button" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900">Modifier</a>
+							<a href="{{ path('admin_article_archive', {id: article.id})}}" type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Archiver</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</section>
 {% endblock %}

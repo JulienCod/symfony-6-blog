@@ -8,6 +8,11 @@
 						<img src="/images/logos/J Julien web&co Bleu-blanc.webp" alt="Logo du blog" class="h-8 mr-3">
 						<span class="self-center text-gray-800 text-2xl font-semibold whitespace-nowrap dark:text-white">Julien Web&Co le blog</span>
 					</a>
+					{% else %}
+				<a href="https://julien-webandco.fr/" target="_blank" class="flex items-center">
+					<img src="/images/logos/J Julien web&co Bleu-blanc.webp" alt="Logo du blog" class="h-8 mr-3">
+					<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Julien Web&Co le blog</span>
+				</a>
 				{% endif %}
 			{% else %}
 				<a href="https://julien-webandco.fr/" target="_blank" class="flex items-center">
@@ -32,6 +37,9 @@
 					{% if app.user %}
 						<li class="m-auto">
 							<a href="{{ path('app_logout') }}" class="block py-2 pl-3 pr-4 text-gray-800 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Deconnexion</a>
+						</li>
+						<li class="m-auto">
+							<a href="{{ path('user_edit', {id: app.user.id}) }}" class="block py-2 pl-3 pr-4 text-gray-800 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Mon compte</a>
 						</li>
 					{% else %}
 

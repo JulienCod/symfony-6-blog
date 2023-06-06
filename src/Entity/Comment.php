@@ -17,7 +17,7 @@ class Comment
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message:'Le contenu du commentaire ne peut pas être vide')]
-    #[Assert\Length(min:50, minMessage:'Le contenu du commentaire ne peut pas contenir moins de 50 caractères.')]
+    #[Assert\Length(min:2, minMessage:'Le contenu du commentaire ne peut pas contenir moins de 50 caractères.')]
     private string $content ;
 
     #[ORM\Column(length: 255)]

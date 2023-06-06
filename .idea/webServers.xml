@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ebc2d12e-c381-4af7-90e4-69f87a8762cd" name="Serveur-vps" url="http://141.94.250.22:">
+        <fileTransfer rootFolder="/var/www/julienwebandco/projet/symfonyBlog" accessType="SFTP" host="141.94.250.22" port="61753" sshConfigId="b06ff32c-8407-4717-bbfc-44b7cb1fe20b" sshConfig="debian@141.94.250.22:61753 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
