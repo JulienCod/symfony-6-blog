@@ -15,12 +15,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/article', name: 'article_')]
 class ArticleController extends AbstractController
 {
+
+    /**
+     * @return Response
+     */
     #[Route('/', name: 'index')]
     public function index(): Response
     {
         return $this->render('article/index.html.twig');
     }
 
+    /**
+     * @param Article $article
+     * @param CommentRepository $commentRepository
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/{slug}', name: 'details')]
     public function details(
         Article $article,
@@ -34,14 +45,18 @@ class ArticleController extends AbstractController
         //création du formulaire
         $form = $this->createForm(CommentFormType::class,$comment);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $comment->setArticle($article);
-            $entityManager->persist($comment);
-            $entityManager->flush();
-            $this->addFlash('success', 'Votre commentaire à bien été pris en compte');
-            return $this->redirectToRoute('article_details',['slug' =>$article->getSlug()]);
-        }
+        $stopBot = $request->request->get('robot_check');
+        $stopBot1 = $request->request->get('robot_check_1');
+
+            if ($form->isSubmitted() && $form->isValid() && $stopBot === "123456789" && $stopBot1 === "")
+            {
+                $comment->setArticle($article);
+                $entityManager->persist($comment);
+                $entityManager->flush();
+                $this->addFlash('success', 'Votre commentaire à bien été pris en compte');
+                return $this->redirectToRoute('article_details',['slug' =>$article->getSlug()]);
+            }
+
 
 
         $comments = $commentRepository->findBy(['article' => $article]);

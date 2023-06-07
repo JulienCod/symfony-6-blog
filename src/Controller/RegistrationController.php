@@ -18,6 +18,17 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
+
+    /**
+     * @param Request $request
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @param UserAuthenticatorInterface $userAuthenticator
+     * @param AppAuthenticator $authenticator
+     * @param EntityManagerInterface $entityManager
+     * @param SendMailService $mail
+     * @param JWTService $jwt
+     * @return Response
+     */
     #[Route('/inscription', name: 'app_register')]
     public function register(
         Request $request,
@@ -84,6 +95,14 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @param $token
+     * @param JWTService $jwt
+     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
     #[Route('/verif/{token}', name: 'verify_user')]
     public function verifyUser(
         $token,
@@ -116,6 +135,12 @@ class RegistrationController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
+    /**
+     * @param JWTService $jwt
+     * @param SendMailService $mail
+     * @param UserRepository $userRepository
+     * @return Response
+     */
     #[Route("/renvoiverif", name: 'resend_verif')]
     public function resendVerif(
         JWTService $jwt,

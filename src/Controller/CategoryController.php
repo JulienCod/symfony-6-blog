@@ -10,6 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/categories', name: 'categories_')]
 class CategoryController extends AbstractController
 {
+
+    /**
+     * @param Category $category
+     * @return Response
+     */
     #[Route('/{slug}', name: 'list')]
     public function list(Category $category): Response
     {

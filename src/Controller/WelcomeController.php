@@ -10,12 +10,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WelcomeController extends AbstractController
 {
+    /**
+     * @param CategoryRepository $categoryRepository
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     */
     #[Route('/', name: 'app_welcome')]
     public function index(
         CategoryRepository $categoryRepository,
         ArticleRepository $articleRepository): Response
     {
-        
+
         return $this->render('welcome/welcome.html.twig', [
             'categories' => $categoryRepository->findBy([],['categoryOrder' => 'asc']),
             'articles' => $articleRepository->findBy(

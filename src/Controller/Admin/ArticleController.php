@@ -26,7 +26,11 @@ class ArticleController extends AbstractController
         return $this->render('admin/article/index.html.twig', compact('articles'));
     }
     #[Route('/ajout', name: 'add')]
-    public function add(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, PictureService $pictureService): Response
+    public function add(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        PictureService $pictureService): Response
     {
         // on crée un nouvel article
         $article = new Article();
@@ -76,7 +80,12 @@ class ArticleController extends AbstractController
         );
     }
     #[Route('/edition/{id}', name: 'edit')]
-    public function edit(Article $article, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, PictureService $pictureService): Response
+    public function edit(
+        Article $article,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        PictureService $pictureService): Response
     {
         // on crée le formulaire
         $articleForm = $this->createForm(ArticleFormType::class, $article);
@@ -127,9 +136,6 @@ class ArticleController extends AbstractController
                 'article' => $article,
             ]
         );
-        return $this->render('admin/article/index.html.twig', [
-            'controller_name' => 'ArticleController',
-        ]);
     }
     #[Route('/archive/{id}', name: 'archive')]
     public function delete(Article $article, EntityManagerInterface $entityManager): Response

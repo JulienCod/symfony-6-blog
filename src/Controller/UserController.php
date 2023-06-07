@@ -14,6 +14,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Route('/compte', name: 'user_')]
 class UserController extends AbstractController
 {
+    /**
+     * @param User $user
+     * @param UserInterface $currentUser
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/edition/{id}', name: 'edit')]
     public function index(
         User $user,

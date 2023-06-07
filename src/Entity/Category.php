@@ -25,9 +25,8 @@ class Category
     private ?int $categoryOrder = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: "La slug ne peut pas être vide.")]
     #[Assert\Length(min:2, max:100, minMessage: "La slug ne peut pas contenir moins de 2 caractères.", maxMessage: "La slug ne peut pas contenir plus de 100 caractères.")]
-    private string $slug;
+    private ?string $slug = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;

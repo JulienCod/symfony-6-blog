@@ -1,0 +1,18 @@
+{% extends './admin/index.html.twig' %}
+
+{% block meta_description %}
+    Page d'ajout d'une categorie pour le blog de Julien web&co freelance
+{% endblock %}
+
+{% block title %}
+    Administration des catégories
+{% endblock %}
+
+{% block h1 %}
+    Ajouter une catégorie
+{% endblock %}
+{% block content %}
+    <section>
+        {% include "admin/category/_form.html.twig" %}
+    </section>
+{% endblock %}

@@ -77,7 +77,9 @@ class PictureService
         // on crée le dossier de destination s'il n'existe pas
         if(!file_exists($path. '/mini/'))
         {
-            mkdir($path. '/mini/', 0755, true);
+            if (!mkdir($concurrentDirectory = $path . '/mini/', 0755, true) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
         }
 
         // on stocke l'image recadrée

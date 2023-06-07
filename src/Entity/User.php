@@ -49,11 +49,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
 
     #[ORM\Column(type:'datetime_immutable')]
-    #[Assert\NotNull()]
+    #[Assert\NotNull]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column]
-    #[Assert\NotNull()]
+    #[Assert\NotNull]
     private \DateTimeImmutable $updatedAt;
 
     #[ORM\Column(type:'boolean')]
