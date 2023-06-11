@@ -10,26 +10,26 @@
 
 {% block body %}
 	<main class="mb-48">
-		<section class="container m-auto text-blue-900 dark:text-white">
+		<section class="container m-auto text-blue-900 dark:text-white px-3">
 			<h1 class="text-2xl text-center my-4">Article
 				{{article.title}}</h1>
 			<div class="flex justify-center">
 				<img src="{{ asset('assets/uploads/articles/' ~ article.image)}}" alt=""/>
 			</div>
 			<hr class="my-6 border-gray-300 sm:mx-auto dark:border-gray-700 lg:my-8"/>
-			<div class="flex justify-around mt-4 mb-4 ">
+			<div class="flex  gap-1 flex-wrap justify-around mt-4 mb-4 ">
 				<p>
-					Auteur :
+					<strong>Auteur :</strong>
 					{{article.author}}
 				</p>
 				<p>
 					{% for category in article.category %}
-						Catégorie :
+						<strong>Catégorie :</strong>
 						{{ category.name }}
 					{% endfor %}
 				</p>
 				<p>
-					publié le :
+					<strong>publié le :</strong>
 					{{ article.createdAt|date('d-m-Y H:i:s') }}
 				</p>
 			</div>

@@ -8,16 +8,16 @@
 {% endblock %}
 
 {% block body %}
-	<main class="py-8 container mx-auto px-4 grid grid-cols-4 gap-4 mb-48">
-		<article class="col-span-3 m-auto ">
-			<!-- Section des 6 articles les plus récents -->
+	<main class="py-8 container-2xl mx-auto px-4 grid grid-cols-4 lg:gap-4  mb-48">
+		<article class="col-span-4 sm:col-span-3 m-auto ">
+			<!-- Section des 12 articles les plus récents -->
 			<section class="mb-8">
-				<h2 class="text-center text-gray-800 text-2xl font-bold mb-10 dark:text-gray-100">Articles récents</h2>
+				<h2 class="text-center text-gray-800 lg:text-2xl md:text-base font-bold mb-10 dark:text-gray-100">Articles récents</h2>
 				{% for article in articles %}
 					<a href="{{ path('article_details',{slug: article.slug})}}" class="mt-4 mb-4 flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 						<img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="{{ asset('assets/uploads/articles/mini/300x300-' ~ article.image)}}" alt="">
 						<div class="flex flex-col justify-between p-4 leading-normal">
-							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{article.title}}</h5>
+							<h3 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{article.title}}</h3>
 							<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ article.content|slice(0, 100)|default(article.content) ~ (article.content|length > 100 ? '...' : '') }}</p>
 						</div>
 					</a>
@@ -26,8 +26,8 @@
 		</article>
 
 		<!-- Catégorie du blog -->
-		<aside class="mb-8 max-w-xs row-span-2">
-			<h2 class=" text-2xl text-gray-800 font-bold mb-10 dark:text-gray-100">Catégories</h2>
+		<aside class="mb-8 max-w-xs row-span-2 hidden sm:block">
+			<h2 class=" lg:text-2xl md:text-base text-gray-800 font-bold mb-10 dark:text-gray-100">Catégories</h2>
 			<div class="flex flex-col gap-1">
 				{% for category in categories %}
 					{% if category.parent == null %}

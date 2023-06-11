@@ -178,7 +178,7 @@ class RegistrationController extends AbstractController
             $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'), 10800);
 
             $mail->send(
-                'no-reply@monSite.com',
+                'contact-projet-blog@julien-webandco.fr',
                 $user->getEmail(),
                 'Activation de votre compte sur le blog',
                 'register',

@@ -26,7 +26,7 @@ class WelcomeController extends AbstractController
             'articles' => $articleRepository->findBy(
                 ['status' => 'Actif'], // Critère de recherche : statut "Actif"
                 ['createdAt' => 'desc'], // Critère de tri : date de création décroissante
-                6 // Limite de résultats : 6 articles
+                12 // Limite de résultats : 12 articles
             ),
         ]);
     }
